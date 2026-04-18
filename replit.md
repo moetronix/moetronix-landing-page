@@ -18,7 +18,7 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 
 ## Artifacts
 
-- **Nextteam Landing Page** (`artifacts/nextteam-landing`) — React + Vite + Tailwind single-page premium SaaS agency landing page at `/`. Includes a sticky navbar, gradient hero, growth/trust section, problem cards, approach grid, tools, portfolio, pricing estimator, FAQ, CTA, and footer.
+- **Moetronix Group** (`artifacts/nextteam-landing`) — React + Vite + Tailwind single-page premium IT solutions landing page at `/`. Includes a sticky navbar, premium gradient hero, client marquee, services grid, About section, advantage section, work process, contact form, CTA, and footer. Contact details: `info@moetronixgroup.com`, `314-280-9043`, `3320 Locust St, Saint Louis, MO`.
 - **API Server** (`artifacts/api-server`) — shared Express API service at `/api`.
 - **Canvas** (`artifacts/mockup-sandbox`) — design/mockup preview sandbox at `/__mockup`.
 
@@ -29,6 +29,6 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
 - `pnpm --filter @workspace/api-server run dev` — run API server locally
-- `pnpm --filter @workspace/nextteam-landing run dev` — run the Nextteam landing page locally
+- `pnpm --filter @workspace/nextteam-landing run dev` — run the Moetronix Group landing page locally
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.

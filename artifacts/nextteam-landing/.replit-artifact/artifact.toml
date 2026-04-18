@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "Nextteam Landing Page"
+title = "Moetronix Group"
 version = "1.0.0"
 id = "artifacts/nextteam-landing"
 router = "path"
