@@ -30,10 +30,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button";
 
 const fadeInUp = {
-  initial: { opacity: 0, y: 22 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-90px" },
-  transition: { duration: 0.55, ease: "easeOut" },
+  initial: { opacity: 0, y: 34, filter: "blur(12px)" },
+  whileInView: { opacity: 1, y: 0, filter: "blur(0px)" },
+  viewport: { once: true, margin: "-90px", amount: 0.25 },
+  transition: { duration: 0.78, ease: [0.22, 1, 0.36, 1] },
 };
 
 const services = [
@@ -117,12 +117,19 @@ export default function Home() {
     <div className="min-h-screen overflow-x-hidden bg-white font-sans text-slate-950 selection:bg-cyan-300/40">
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/60 bg-white/85 backdrop-blur-2xl">
         <div className="container mx-auto flex h-20 items-center justify-between px-6 md:px-8">
-          <a href="#" className="flex items-center gap-3" aria-label="Moetronix Group home">
-            <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl bg-slate-950 text-sm font-black text-white shadow-lg shadow-blue-900/20">
-              <span className="absolute inset-0 bg-gradient-to-br from-sky-400 via-blue-600 to-slate-950" />
-              <span className="relative">M</span>
+          <a href="#" className="group flex items-center gap-3" aria-label="Moetronix Group home">
+            <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border border-white/70 bg-slate-950 text-white shadow-xl shadow-slate-950/15 ring-1 ring-slate-950/5">
+              <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(125,211,252,.9),transparent_28%),linear-gradient(135deg,#020617_0%,#0f172a_48%,#164e63_100%)]" />
+              <span className="absolute -right-4 -top-5 h-12 w-12 rounded-full bg-cyan-300/25 blur-xl transition-transform duration-500 group-hover:scale-125" />
+              <svg className="relative h-6 w-6" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <path d="M6 24V8l10 10L26 8v16" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M11 24V18.5L16 23l5-4.5V24" stroke="rgba(125,211,252,.95)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </div>
-            <span className="text-xl font-black tracking-tight text-slate-950">Moetronix</span>
+            <span className="leading-none">
+              <span className="block text-xl font-black tracking-tight text-slate-950">Moetronix</span>
+              <span className="block text-[10px] font-black uppercase tracking-[0.28em] text-slate-400">Group</span>
+            </span>
           </a>
 
           <nav className="hidden items-center gap-1 rounded-full border border-slate-200 bg-white/75 px-2 py-1 shadow-sm md:flex">
@@ -185,14 +192,14 @@ export default function Home() {
           </svg>
 
           <div className="container relative z-10 mx-auto px-6 py-24 md:px-8 md:py-32">
-            <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
+            <motion.div initial={{ opacity: 0, y: 26, filter: "blur(12px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}>
               <div className="mb-10 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-50 shadow-2xl backdrop-blur-md">
                 <span className="h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,.9)]" />
                 Premium IT Solutions
               </div>
-              <h1 className="max-w-4xl text-5xl font-black leading-[1.02] tracking-tight md:text-7xl">
+              <motion.h1 className="max-w-4xl text-5xl font-black leading-[1.02] tracking-tight md:text-7xl" initial={{ opacity: 0, y: 28, letterSpacing: "-0.08em" }} animate={{ opacity: 1, y: 0, letterSpacing: "-0.045em" }} transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
                 Drive Growth with Scalable, Smart IT Solutions
-              </h1>
+              </motion.h1>
               <p className="mt-7 max-w-2xl text-base font-medium leading-relaxed text-blue-50/82 md:text-lg">
                 From custom software to cloud integration, Moetronix Group delivers reliable IT services that evolve with your business needs.
               </p>
@@ -237,17 +244,14 @@ export default function Home() {
                     initial={{ opacity: 0, y: 18 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-90px" }}
-                    transition={{ duration: 0.45, delay: index * 0.04 }}
-                    className="group rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-950/8"
+                    transition={{ duration: 0.62, delay: index * 0.055, ease: [0.22, 1, 0.36, 1] }}
+                    className="group rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-slate-300 hover:shadow-2xl hover:shadow-slate-950/10"
                   >
-                    <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-100 bg-slate-50 text-blue-700 transition-all group-hover:scale-110 group-hover:bg-blue-700 group-hover:text-white">
+                    <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-100 bg-slate-50 text-slate-800 transition-all duration-500 group-hover:scale-110 group-hover:bg-slate-950 group-hover:text-cyan-200">
                       <Icon className="h-6 w-6" />
                     </div>
                     <h3 className="mb-3 text-xl font-black text-slate-950">{service.title}</h3>
                     <p className="min-h-[96px] text-sm font-medium leading-relaxed text-slate-600">{service.desc}</p>
-                    <a href="#contact" className="mt-7 inline-flex items-center gap-2 text-sm font-black text-blue-700 transition-colors hover:text-slate-950">
-                      Read More <ArrowRight className="h-4 w-4" />
-                    </a>
                   </motion.article>
                 );
               })}
@@ -331,9 +335,6 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <Button className="mt-9 rounded-full bg-blue-700 px-8 font-black text-white shadow-lg shadow-blue-700/20 hover:bg-blue-800">
-                Read More <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
             </motion.div>
           </div>
         </section>
@@ -386,14 +387,20 @@ export default function Home() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-80px" }}
                       transition={{ duration: 0.45, delay: index * 0.05 }}
-                      className={`rounded-[2rem] border border-slate-200 p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl ${index === 4 ? "bg-blue-700 text-white md:col-span-2" : "bg-slate-50 text-slate-950"}`}
+                      className={`relative overflow-hidden rounded-[2rem] border p-7 shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-2xl ${index === 4 ? "border-slate-700/70 bg-[linear-gradient(135deg,#020617_0%,#111827_48%,#1f2937_100%)] text-white shadow-slate-950/20 md:col-span-2" : "border-slate-200 bg-slate-50 text-slate-950 hover:border-slate-300 hover:shadow-slate-950/10"}`}
                     >
-                      <div className={`mb-7 flex h-14 w-14 items-center justify-center rounded-2xl ${index === 4 ? "bg-white/12 text-cyan-100" : "bg-white text-blue-700"}`}>
+                      {index === 4 && (
+                        <>
+                          <div className="absolute right-[-18%] top-[-42%] h-56 w-56 rounded-full bg-cyan-300/10 blur-3xl" />
+                          <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,.06),transparent)] opacity-70" />
+                        </>
+                      )}
+                      <div className={`relative mb-7 flex h-14 w-14 items-center justify-center rounded-2xl ${index === 4 ? "border border-white/10 bg-white/8 text-cyan-100" : "bg-white text-slate-800"}`}>
                         <AdvantageIcon className="h-6 w-6" />
                       </div>
-                      <p className={`mb-2 text-xs font-black uppercase tracking-[0.24em] ${index === 4 ? "text-cyan-100" : "text-blue-700"}`}>{String(index + 1).padStart(2, "0")}</p>
-                      <h3 className="mb-3 text-2xl font-black">{title as string}</h3>
-                      <p className={`font-medium leading-relaxed ${index === 4 ? "text-white/72" : "text-slate-600"}`}>{desc as string}</p>
+                      <p className={`relative mb-2 text-xs font-black uppercase tracking-[0.24em] ${index === 4 ? "text-cyan-100/90" : "text-slate-500"}`}>{String(index + 1).padStart(2, "0")}</p>
+                      <h3 className="relative mb-3 text-2xl font-black">{title as string}</h3>
+                      <p className={`relative font-medium leading-relaxed ${index === 4 ? "text-slate-300" : "text-slate-600"}`}>{desc as string}</p>
                     </motion.article>
                   );
                 })}
@@ -431,7 +438,7 @@ export default function Home() {
         </section>
 
         <section id="contact" className="relative overflow-hidden bg-white py-28">
-          <div className="absolute left-1/2 top-0 h-[520px] w-[980px] -translate-x-1/2 rounded-full bg-blue-50 blur-[95px]" />
+          <div className="absolute left-1/2 top-0 h-[520px] w-[980px] -translate-x-1/2 rounded-full bg-slate-100 blur-[95px]" />
           <div className="container relative z-10 mx-auto grid gap-10 px-6 md:px-8 lg:grid-cols-[1.05fr_0.95fr]">
             <motion.div {...fadeInUp}>
               <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-blue-700">Let's Build Something Great</p>
@@ -460,19 +467,19 @@ export default function Home() {
                   <textarea className="min-h-36 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 font-semibold outline-none transition-all focus:border-blue-400 focus:bg-white md:col-span-2" placeholder="Write Message..." />
                 </div>
                 <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm font-semibold text-slate-600">Selected service: {selectedServiceCopy}</div>
-                <Button className="mt-6 h-14 w-full rounded-2xl bg-blue-700 text-base font-black text-white shadow-lg shadow-blue-700/20 hover:bg-blue-800">
+              <Button className="mt-6 h-14 w-full rounded-2xl bg-slate-950 text-base font-black text-white shadow-lg shadow-slate-950/20 hover:bg-slate-800">
                   Let's Get Started <Send className="ml-2 h-4 w-4" />
                 </Button>
                 <div className="mt-5 flex flex-wrap gap-4 text-sm font-bold text-slate-500">
-                  <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-blue-700" /> Your data is secure</span>
-                  <span className="inline-flex items-center gap-2"><Zap className="h-4 w-4 text-blue-700" /> Response within 24hrs</span>
-                  <span className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-blue-700" /> Free consultation</span>
+                  <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-slate-800" /> Your data is secure</span>
+                  <span className="inline-flex items-center gap-2"><Zap className="h-4 w-4 text-slate-800" /> Response within 24hrs</span>
+                  <span className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-slate-800" /> Free consultation</span>
                 </div>
               </div>
             </motion.div>
 
             <motion.aside className="rounded-[2.5rem] bg-slate-950 p-8 text-white shadow-2xl shadow-blue-950/20 md:p-10" {...fadeInUp}>
-              <div className="mb-10 rounded-[1.8rem] bg-gradient-to-br from-blue-700 via-slate-900 to-cyan-500 p-8">
+              <div className="mb-10 rounded-[1.8rem] border border-white/10 bg-[linear-gradient(135deg,#111827_0%,#020617_54%,#164e63_100%)] p-8 shadow-2xl shadow-black/20">
                 <p className="text-2xl font-black leading-tight">Great partnerships begin with a simple conversation.</p>
               </div>
               <div className="space-y-6">
@@ -499,11 +506,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="bg-blue-700 py-24 text-white">
-          <div className="container mx-auto px-6 text-center md:px-8">
+        <section className="relative overflow-hidden bg-[linear-gradient(135deg,#020617_0%,#0f172a_55%,#164e63_100%)] py-24 text-white">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(125,211,252,.18),transparent_30%)]" />
+          <div className="container relative z-10 mx-auto px-6 text-center md:px-8">
             <h2 className="mx-auto max-w-3xl text-4xl font-black tracking-tight md:text-6xl">Ready to build your next breakthrough project?</h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg font-medium text-blue-50/80">Moetronix Group brings custom software, cloud, AI, staffing, and training into one accountable technology partner.</p>
-            <Button className="mt-10 h-14 rounded-full bg-white px-9 text-base font-black text-blue-700 shadow-xl hover:bg-blue-50">
+            <Button className="mt-10 h-14 rounded-full bg-white px-9 text-base font-black text-slate-950 shadow-xl hover:bg-cyan-50">
               Start a Project <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
@@ -515,7 +523,13 @@ export default function Home() {
           <div className="grid gap-10 md:grid-cols-12">
             <div className="md:col-span-5">
               <div className="mb-5 flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 via-blue-600 to-slate-950 text-sm font-black text-white">M</div>
+                <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-slate-900 text-white">
+                  <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(125,211,252,.85),transparent_30%),linear-gradient(135deg,#020617,#0f172a,#164e63)]" />
+                  <svg className="relative h-6 w-6" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    <path d="M6 24V8l10 10L26 8v16" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M11 24V18.5L16 23l5-4.5V24" stroke="rgba(125,211,252,.95)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
                 <span className="text-2xl font-black tracking-tight text-white">Moetronix Group</span>
               </div>
               <p className="max-w-md text-base font-medium leading-relaxed text-slate-400">
