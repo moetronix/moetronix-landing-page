@@ -104,6 +104,112 @@ const processSteps = [
 
 const clients = ["AC Smith", "Abbvie", "Catalent", "AXON", "Amazon", "Celanese"];
 
+const AbstractVisual = () => (
+  <div className="relative flex h-[420px] w-full items-center justify-center lg:h-[600px]">
+    {/* Soft glowing spheres */}
+    <motion.div
+      animate={{
+        scale: [1, 1.1, 1],
+        opacity: [0.3, 0.5, 0.3],
+      }}
+      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      className="absolute h-64 w-64 rounded-full bg-primary/20 blur-[80px]"
+    />
+    <motion.div
+      animate={{
+        scale: [1, 1.2, 1],
+        opacity: [0.2, 0.4, 0.2],
+      }}
+      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+      className="absolute h-80 w-80 translate-x-20 rounded-full bg-accent/20 blur-[100px]"
+    />
+
+    {/* Abstract geometric nodes */}
+    <div className="relative h-full w-full">
+      <svg className="h-full w-full" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="var(--color-primary)" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="var(--color-accent)" stopOpacity="0.4" />
+          </linearGradient>
+        </defs>
+
+        {/* Animated paths */}
+        <motion.path
+          d="M100 200 Q 200 100 300 200 T 400 200"
+          stroke="url(#glowGradient)"
+          strokeWidth="1.5"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.3 }}
+          transition={{ duration: 3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+        />
+        <motion.path
+          d="M50 150 Q 150 250 250 150 T 350 150"
+          stroke="url(#glowGradient)"
+          strokeWidth="1"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.2 }}
+          transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut", delay: 1 }}
+        />
+
+        {/* Floating nodes */}
+        {[
+          { x: 120, y: 140, r: 6 },
+          { x: 280, y: 120, r: 4 },
+          { x: 320, y: 260, r: 8 },
+          { x: 180, y: 280, r: 5 },
+          { x: 220, y: 180, r: 12 },
+        ].map((node, i) => (
+          <motion.circle
+            key={i}
+            cx={node.x}
+            cy={node.y}
+            r={node.r}
+            fill="url(#glowGradient)"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{
+              opacity: [0.4, 0.8, 0.4],
+              scale: [1, 1.1, 1],
+              y: [0, -10, 0]
+            }}
+            transition={{
+              duration: 3 + i,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.5
+            }}
+          />
+        ))}
+
+        {/* Connecting lines */}
+        <motion.line x1="120" y1="140" x2="220" y2="180" stroke="white" strokeWidth="0.5" strokeOpacity="0.1" />
+        <motion.line x1="220" y1="180" x2="280" y2="120" stroke="white" strokeWidth="0.5" strokeOpacity="0.1" />
+        <motion.line x1="220" y1="180" x2="320" y2="260" stroke="white" strokeWidth="0.5" strokeOpacity="0.1" />
+        <motion.line x1="180" y1="280" x2="220" y2="180" stroke="white" strokeWidth="0.5" strokeOpacity="0.1" />
+      </svg>
+    </div>
+
+    {/* Glassmorphic card overlay */}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1, delay: 0.5 }}
+      className="absolute h-48 w-64 rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl"
+    >
+      <div className="flex h-full flex-col justify-between p-6">
+        <div className="space-y-2">
+          <div className="h-2 w-12 rounded-full bg-primary/40" />
+          <div className="h-2 w-24 rounded-full bg-white/10" />
+        </div>
+        <div className="flex items-end justify-between">
+          <div className="h-8 w-8 rounded-lg bg-accent/20" />
+          <div className="h-4 w-16 rounded-full bg-white/20" />
+        </div>
+      </div>
+    </motion.div>
+  </div>
+);
+
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("Software Development");
@@ -114,22 +220,11 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white font-sans text-slate-950 selection:bg-cyan-300/40">
+    <div className="min-h-screen overflow-x-hidden bg-white font-sans text-slate-950 selection:bg-primary/30">
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/60 bg-white/85 backdrop-blur-2xl">
-        <div className="container mx-auto flex h-20 items-center justify-between px-6 md:px-8">
-          <a href="#" className="group flex items-center gap-3" aria-label="Moetronix Group home">
-            <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border border-white/70 bg-slate-950 text-white shadow-xl shadow-slate-950/15 ring-1 ring-slate-950/5">
-              <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(125,211,252,.9),transparent_28%),linear-gradient(135deg,#020617_0%,#0f172a_48%,#164e63_100%)]" />
-              <span className="absolute -right-4 -top-5 h-12 w-12 rounded-full bg-cyan-300/25 blur-xl transition-transform duration-500 group-hover:scale-125" />
-              <svg className="relative h-6 w-6" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                <path d="M6 24V8l10 10L26 8v16" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M11 24V18.5L16 23l5-4.5V24" stroke="rgba(125,211,252,.95)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <span className="leading-none">
-              <span className="block text-xl font-black tracking-tight text-slate-950">Moetronix</span>
-              <span className="block text-[10px] font-black uppercase tracking-[0.28em] text-slate-400">Group</span>
-            </span>
+        <div className="container mx-auto flex h-24 items-center justify-between px-6 md:px-8">
+          <a href="#" className="flex items-center" aria-label="Moetronix home">
+            <img src="/logo-icon.png" alt="Moetronix" className="h-40 w-auto translate-y-1" />
           </a>
 
           <nav className="hidden items-center gap-1 rounded-full border border-slate-200 bg-white/75 px-2 py-1 shadow-sm md:flex">
@@ -140,8 +235,8 @@ export default function Home() {
             <a href="#contact" className="rounded-full px-5 py-2 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-100 hover:text-blue-700">Contact</a>
           </nav>
 
-          <Button className="hidden rounded-full bg-slate-950 px-7 font-bold text-white shadow-lg shadow-slate-950/15 transition-all hover:-translate-y-0.5 hover:bg-blue-700 md:inline-flex">
-            Get Started
+          <Button className="hidden rounded-full bg-slate-950 px-7 font-bold text-white shadow-lg shadow-slate-950/15 transition-all hover:-translate-y-0.5 hover:bg-primary md:inline-flex">
+            Book a Consultation
           </Button>
 
           <button
@@ -173,45 +268,57 @@ export default function Home() {
                   {item}
                 </a>
               ))}
-              <Button className="mt-2 h-12 rounded-xl bg-blue-700 text-base font-bold text-white hover:bg-blue-800">Get Started</Button>
+              <Button className="mt-2 h-12 rounded-xl bg-primary text-base font-bold text-white hover:bg-primary/90">Book a Consultation</Button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       <main className="pt-20">
-        <section className="relative overflow-hidden bg-[#061021] text-white">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_12%,rgba(80,205,255,0.68),transparent_28%),linear-gradient(128deg,#050b18_0%,#082158_48%,#66d8ff_100%)]" />
-          <div className="absolute right-[-9%] top-[-18%] h-[620px] w-[820px] rounded-[48%] bg-cyan-300/25 blur-3xl" />
-          <div className="absolute bottom-[-24%] left-[-16%] h-[560px] w-[560px] rounded-full bg-blue-950/80 blur-[85px]" />
-          <div className="absolute bottom-[-16%] right-[-10%] h-[560px] w-[900px] rotate-[-25deg] rounded-[100%_0_0_0] bg-sky-300/25" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[length:64px_64px] opacity-70" />
+        <section className="relative overflow-hidden bg-[#060e1d] text-white">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_12%,rgba(0,229,255,0.45),transparent_28%),linear-gradient(128deg,#050b18_0%,#082158_48%,#007bff_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(#ffffff_0.5px,transparent_0.5px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)] opacity-[0.03]" />
+          <div className="absolute right-[-9%] top-[-18%] h-[620px] w-[820px] rounded-[48%] bg-primary/20 blur-3xl" />
+          <div className="absolute bottom-[-24%] left-[-16%] h-[560px] w-[560px] rounded-full bg-slate-950/80 blur-[85px]" />
+          <div className="absolute bottom-[-16%] right-[-10%] h-[560px] w-[900px] rotate-[-25deg] rounded-[100%_0_0_0] bg-primary/10" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[length:64px_64px] opacity-70" />
           <svg className="absolute inset-0 h-full w-full opacity-25" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             <path d="M0,62 C20,44 32,68 50,52 C68,36 84,54 100,38" fill="none" stroke="rgba(255,255,255,.32)" strokeWidth="0.12" />
             <path d="M0,48 C20,34 34,44 52,40 C72,36 83,22 100,28" fill="none" stroke="rgba(138,210,255,.32)" strokeWidth="0.08" />
           </svg>
 
-          <div className="container relative z-10 mx-auto px-6 py-24 md:px-8 md:py-32">
-            <motion.div initial={{ opacity: 0, y: 26, filter: "blur(12px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}>
-              <div className="mb-10 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-50 shadow-2xl backdrop-blur-md">
-                <span className="h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,.9)]" />
-                Premium IT Solutions
-              </div>
-              <motion.h1 className="max-w-4xl text-5xl font-black leading-[1.02] tracking-tight md:text-7xl" initial={{ opacity: 0, y: 28, letterSpacing: "-0.08em" }} animate={{ opacity: 1, y: 0, letterSpacing: "-0.045em" }} transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
-                Drive Growth with Scalable, Smart IT Solutions
-              </motion.h1>
-              <p className="mt-7 max-w-2xl text-base font-medium leading-relaxed text-blue-50/82 md:text-lg">
-                From custom software to cloud integration, Moetronix Group delivers reliable IT services that evolve with your business needs.
-              </p>
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <Button className="h-13 rounded-full bg-white px-8 text-sm font-black text-slate-950 shadow-[0_0_40px_-12px_rgba(255,255,255,.75)] transition-all hover:-translate-y-1 hover:bg-blue-50">
-                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-                <Button variant="outline" className="h-13 rounded-full border-white/15 bg-white/8 px-8 text-sm font-black text-white transition-all hover:-translate-y-1 hover:bg-white/12">
-                  Learn More
-                </Button>
-              </div>
-            </motion.div>
+          <div className="container relative z-10 mx-auto px-6 py-16 md:px-8 md:py-24">
+            <div className="grid items-center gap-16 lg:grid-cols-2">
+              <motion.div initial={{ opacity: 0, x: -26, filter: "blur(12px)" }} animate={{ opacity: 1, x: 0, filter: "blur(0px)" }} transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}>
+                <div className="mb-10 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-50 shadow-2xl backdrop-blur-md">
+                  <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_18px_rgba(0,229,255,.9)]" />
+                  Premium IT Solutions
+                </div>
+                <motion.h1 className="text-5xl font-black leading-[1.05] tracking-tight md:text-6xl" initial={{ opacity: 0, y: 28, letterSpacing: "-0.08em" }} animate={{ opacity: 1, y: 0, letterSpacing: "-0.045em" }} transition={{ duration: 1.05, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
+                  We build <span className="text-secondary">scalable software</span>, cloud platforms, and AI-driven systems that deliver <span className="text-accent underline decoration-accent/30 underline-offset-8">real business results</span>.
+                </motion.h1>
+                <p className="mt-7 max-w-xl text-base font-medium leading-relaxed text-blue-50/82 md:text-lg">
+                  Moetronix Group transforms complexity into competitive advantage through high-performance engineering, practical AI, and cloud-native architecture built for the future.
+                </p>
+                <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                  <Button className="h-14 rounded-full bg-white px-8 text-sm font-black text-slate-950 shadow-[0_0_40px_-12px_rgba(255,255,255,.75)] transition-all hover:-translate-y-1 hover:bg-blue-50">
+                    Book a Consultation <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                  <Button variant="outline" className="h-14 rounded-full border-white/15 bg-white/8 px-8 text-sm font-black text-white transition-all hover:-translate-y-1 hover:bg-white/12">
+                    Learn More
+                  </Button>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 26, filter: "blur(12px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="hidden lg:block"
+              >
+                <AbstractVisual />
+              </motion.div>
+            </div>
           </div>
         </section>
 
@@ -229,7 +336,7 @@ export default function Home() {
         <section id="services" className="bg-slate-50 py-28">
           <div className="container mx-auto px-6 md:px-8">
             <motion.div className="mb-16 max-w-3xl" {...fadeInUp}>
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-blue-700">Our Expertise</p>
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-primary">Our Expertise</p>
               <h2 className="text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
                 Ignite Your Success With Our Technology Services
               </h2>
@@ -247,7 +354,7 @@ export default function Home() {
                     transition={{ duration: 0.62, delay: index * 0.055, ease: [0.22, 1, 0.36, 1] }}
                     className="group rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-slate-300 hover:shadow-2xl hover:shadow-slate-950/10"
                   >
-                    <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-100 bg-slate-50 text-slate-800 transition-all duration-500 group-hover:scale-110 group-hover:bg-slate-950 group-hover:text-cyan-200">
+                    <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-100 bg-slate-50 text-slate-800 transition-all duration-500 group-hover:scale-110 group-hover:bg-slate-950 group-hover:text-accent">
                       <Icon className="h-6 w-6" />
                     </div>
                     <h3 className="mb-3 text-xl font-black text-slate-950">{service.title}</h3>
@@ -315,7 +422,7 @@ export default function Home() {
             </motion.div>
 
             <motion.div {...fadeInUp}>
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-blue-700">About Us</p>
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-primary">About Us</p>
               <h2 className="mb-6 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">
                 Delivering Innovative IT Solutions For Your Business.
               </h2>
@@ -344,9 +451,9 @@ export default function Home() {
             {Array.from({ length: 6 }).map((_, index) => (
               <React.Fragment key={index}>
                 <span>Scalable Cloud Solutions</span>
-                <span className="text-cyan-300">Digital Transformation</span>
+                <span className="text-accent">Digital Transformation</span>
                 <span>IT Excellence</span>
-                <span className="text-blue-400">Enterprise Software</span>
+                <span className="text-primary">Enterprise Software</span>
                 <span>AI/ML Innovation</span>
               </React.Fragment>
             ))}
@@ -357,7 +464,7 @@ export default function Home() {
           <div className="container mx-auto px-6 md:px-8">
             <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
               <motion.div {...fadeInUp}>
-                <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-blue-700">The Moetronix Advantage</p>
+                <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-primary">The Moetronix Advantage</p>
                 <h2 className="mb-6 max-w-xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
                   Built for those who demand excellence.
                 </h2>
@@ -365,7 +472,7 @@ export default function Home() {
                   We do not just write code; we engineer scalable engines of growth. Partner with a team that treats your product with the exact same obsession you do.
                 </p>
                 <div className="mt-10 rounded-[2rem] bg-slate-950 p-8 text-white shadow-2xl shadow-blue-950/15">
-                  <p className="text-xs font-black uppercase tracking-[0.24em] text-cyan-300">Performance</p>
+                  <p className="text-xs font-black uppercase tracking-[0.24em] text-accent">Performance</p>
                   <div className="mt-4 text-6xl font-black">+240%</div>
                   <p className="mt-4 text-sm font-medium leading-relaxed text-white/65">Efficiency gains from modernized systems, automation, and resilient cloud-native architecture.</p>
                 </div>
@@ -412,7 +519,7 @@ export default function Home() {
         <section id="process" className="bg-slate-50 py-28">
           <div className="container mx-auto px-6 md:px-8">
             <motion.div className="mb-16 text-center" {...fadeInUp}>
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-blue-700">Work Process</p>
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-primary">Work Process</p>
               <h2 className="text-4xl font-black tracking-tight text-slate-950 md:text-6xl">Four Steps Work Process</h2>
             </motion.div>
             <div className="grid gap-5 md:grid-cols-4">
@@ -427,7 +534,7 @@ export default function Home() {
                 >
                   <div className="absolute -right-5 -top-5 text-8xl font-black text-slate-100">{step.step}</div>
                   <div className="relative z-10">
-                    <div className="mb-10 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-700 text-sm font-black text-white">{index + 1}</div>
+                    <div className="mb-10 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-sm font-black text-white">{index + 1}</div>
                     <h3 className="mb-3 text-xl font-black text-slate-950">{step.title}</h3>
                     <p className="text-sm font-medium leading-relaxed text-slate-600">{step.desc}</p>
                   </div>
@@ -441,7 +548,7 @@ export default function Home() {
           <div className="absolute left-1/2 top-0 h-[520px] w-[980px] -translate-x-1/2 rounded-full bg-slate-100 blur-[95px]" />
           <div className="container relative z-10 mx-auto grid gap-10 px-6 md:px-8 lg:grid-cols-[1.05fr_0.95fr]">
             <motion.div {...fadeInUp}>
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-blue-700">Let's Build Something Great</p>
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-primary">Let's Build Something Great</p>
               <h2 className="mb-5 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">Let's Connect & Collaborate</h2>
               <p className="mb-10 max-w-xl text-lg font-medium leading-relaxed text-slate-600">
                 Reach out to discuss your IT needs, request a customized quote, or get expert guidance on solutions that drive your business forward.
@@ -449,14 +556,14 @@ export default function Home() {
 
               <div className="rounded-[2.25rem] border border-slate-200 bg-white p-5 shadow-2xl shadow-blue-950/10 md:p-8">
                 <div className="grid gap-4 md:grid-cols-2">
-                  <input className="h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none transition-all focus:border-blue-400 focus:bg-white" placeholder="Your Name" />
-                  <input className="h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none transition-all focus:border-blue-400 focus:bg-white" placeholder="Email Address" />
-                  <input className="h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none transition-all focus:border-blue-400 focus:bg-white" placeholder="Phone Number" />
+                  <input className="h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none transition-all focus:border-primary focus:bg-white" placeholder="Your Name" />
+                  <input className="h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none transition-all focus:border-primary focus:bg-white" placeholder="Email Address" />
+                  <input className="h-14 rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none transition-all focus:border-primary focus:bg-white" placeholder="Phone Number" />
                   <div className="relative">
                     <select
                       value={selectedService}
                       onChange={(event) => setSelectedService(event.target.value)}
-                      className="h-14 w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none transition-all focus:border-blue-400 focus:bg-white"
+                      className="h-14 w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-5 font-semibold outline-none transition-all focus:border-primary focus:bg-white"
                     >
                       {services.map((service) => (
                         <option key={service.title}>{service.title}</option>
@@ -464,10 +571,10 @@ export default function Home() {
                     </select>
                     <ChevronDown className="pointer-events-none absolute right-5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                   </div>
-                  <textarea className="min-h-36 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 font-semibold outline-none transition-all focus:border-blue-400 focus:bg-white md:col-span-2" placeholder="Write Message..." />
+                  <textarea className="min-h-36 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 font-semibold outline-none transition-all focus:border-primary focus:bg-white md:col-span-2" placeholder="Write Message..." />
                 </div>
                 <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm font-semibold text-slate-600">Selected service: {selectedServiceCopy}</div>
-              <Button className="mt-6 h-14 w-full rounded-2xl bg-slate-950 text-base font-black text-white shadow-lg shadow-slate-950/20 hover:bg-slate-800">
+                <Button className="mt-6 h-14 w-full rounded-2xl bg-slate-950 text-base font-black text-white shadow-lg shadow-slate-950/20 hover:bg-slate-800">
                   Let's Get Started <Send className="ml-2 h-4 w-4" />
                 </Button>
                 <div className="mt-5 flex flex-wrap gap-4 text-sm font-bold text-slate-500">
@@ -478,8 +585,8 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <motion.aside className="rounded-[2.5rem] bg-slate-950 p-8 text-white shadow-2xl shadow-blue-950/20 md:p-10" {...fadeInUp}>
-              <div className="mb-10 rounded-[1.8rem] border border-white/10 bg-[linear-gradient(135deg,#111827_0%,#020617_54%,#164e63_100%)] p-8 shadow-2xl shadow-black/20">
+            <motion.aside className="rounded-[2.5rem] bg-slate-950 p-8 text-white shadow-2xl shadow-primary/10 md:p-10" {...fadeInUp}>
+              <div className="mb-10 rounded-[1.8rem] border border-white/10 bg-[linear-gradient(135deg,#111827_0%,#020617_54%,#007bff_100%)] p-8 shadow-2xl shadow-black/20">
                 <p className="text-2xl font-black leading-tight">Great partnerships begin with a simple conversation.</p>
               </div>
               <div className="space-y-6">
@@ -491,11 +598,11 @@ export default function Home() {
                   const ContactIcon = Icon as typeof Mail;
                   return (
                     <div key={label as string} className="flex gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
-                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-cyan-200">
+                      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-accent">
                         <ContactIcon className="h-5 w-5" />
                       </div>
                       <div>
-                        <p className="text-sm font-black uppercase tracking-[0.2em] text-cyan-200">{label as string}</p>
+                        <p className="text-sm font-black uppercase tracking-[0.2em] text-accent">{label as string}</p>
                         <p className="mt-1 font-bold leading-relaxed text-white/85">{value as string}</p>
                       </div>
                     </div>
@@ -506,8 +613,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden bg-[linear-gradient(135deg,#020617_0%,#0f172a_55%,#164e63_100%)] py-24 text-white">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(125,211,252,.18),transparent_30%)]" />
+        <section className="relative overflow-hidden bg-[linear-gradient(135deg,#020617_0%,#0f172a_55%,#007bff_100%)] py-24 text-white">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,229,255,0.15),transparent_30%)]" />
           <div className="container relative z-10 mx-auto px-6 text-center md:px-8">
             <h2 className="mx-auto max-w-3xl text-4xl font-black tracking-tight md:text-6xl">Ready to build your next breakthrough project?</h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg font-medium text-blue-50/80">Moetronix Group brings custom software, cloud, AI, staffing, and training into one accountable technology partner.</p>
@@ -523,14 +630,8 @@ export default function Home() {
           <div className="grid gap-10 md:grid-cols-12">
             <div className="md:col-span-5">
               <div className="mb-5 flex items-center gap-3">
-                <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-slate-900 text-white">
-                  <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(125,211,252,.85),transparent_30%),linear-gradient(135deg,#020617,#0f172a,#164e63)]" />
-                  <svg className="relative h-6 w-6" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                    <path d="M6 24V8l10 10L26 8v16" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M11 24V18.5L16 23l5-4.5V24" stroke="rgba(125,211,252,.95)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-                <span className="text-2xl font-black tracking-tight text-white">Moetronix Group</span>
+                <img src="/logo-icon.png" alt="" className="h-40 w-auto brightness-0 invert" />
+                <span className="text-[26px] font-bold leading-none tracking-tight text-white"></span>
               </div>
               <p className="max-w-md text-base font-medium leading-relaxed text-slate-400">
                 Premium IT solutions for companies that need reliable software, scalable cloud systems, AI-enabled workflows, and technology teams that deliver.
